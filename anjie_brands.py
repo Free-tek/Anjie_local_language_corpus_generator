@@ -391,10 +391,8 @@ def anjie_brands(country, brand, csvName):
         
         y_pos = ['Positive', 'Negative']
         
-        '''
         print("These are the newspapers and how their posts pass, positive or negative")
         print(df.groupby(['Media_name', 'polarity_score1'])['polarity_score1'].count())
-        '''
         
         array = [result.count('Positive'), result.count('Negative')]
         plt.bar(y_pos, array, align='center', alpha=0.5)
