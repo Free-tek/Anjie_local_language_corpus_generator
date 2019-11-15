@@ -17,7 +17,11 @@ Most recent developments to this library will allow you scrape news from various
 the corpus you generate to do some awesome machine learning tasks.
   
 <br>
-<image src = "">
+Brand analaysis on Donald Trump
+<br>
+<image src = "https://github.com/Free-tek/Worldwide-Newspaper-Scraping-Script/blob/master/Screenshot%202019-11-15%20at%206.27.52%20pm.png">
   
 <br>
-<image src = "">
+Brand analaysis on Donald Trump
+<br>
+<image src = "https://github.com/Free-tek/Worldwide-Newspaper-Scraping-Script/blob/master/Screenshot%202019-11-15%20at%206.28.14%20pm.png">
