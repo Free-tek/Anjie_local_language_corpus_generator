@@ -1,10 +1,26 @@
-def anjie_brands(country, brand, csvName, startDate, endDate, numberOfRows):
+def anjie_brands(country, brand, csvName):
     #TODO: show progress
     
     
+    
+    #ignore warnings
+    import warnings
+    warnings.filterwarnings("ignore")
+    
+    import matplotlib.pyplot as plt; 
+    import numpy as np
+    import matplotlib.pyplot as plt
+        
+        
+    import nltk
+    nltk.download('vader_lexicon')
+    from nltk.sentiment.vader import SentimentIntensityAnalyzer as analyser
+
     from bs4 import BeautifulSoup
     from urllib.request import Request, urlopen
     import re
+    import csv
+    import pandas as pd
     
     searchKeyword = brand
 
@@ -14,16 +30,19 @@ def anjie_brands(country, brand, csvName, startDate, endDate, numberOfRows):
         #get news from punch
         site= f"https://punchng.com/search/{searchKeyword}"
         hdr = {'User-Agent': 'Mozilla/5.0'}
-    
-    
+
+
         req = Request(site,headers=hdr)
-        page = urlopen(req)
+        try:
+            page = urlopen(req)
+        except Exception as e: print(e)
+        
         soup = BeautifulSoup(page)
         
-        import csv
+        
         csvfile = open(f"{csvName}.csv",'w', newline='')
         obj = csv.writer(csvfile)
-        headers=[('Media_name','Brand_name', 'Headline', 'Brief_body', 'Report_Date', 'url')]
+        headers=[('Media_name','Brand_name', 'Headline', 'Brief_body', 'Report_Date', 'url', 'polarity_score')]
         obj.writerows(headers)
     
     
@@ -65,8 +84,12 @@ def anjie_brands(country, brand, csvName, startDate, endDate, numberOfRows):
             except:
                 url = "Nan"
             
+            #get sentiment analysis
+            sia = analyser()
+            results = []
+            polarity_score = sia.polarity_scores(Headline)
             
-            entry = [('Punch NG', brand_name, Headline, Brief_body, Report_date, url)]
+            entry = [('Punch NG', brand_name, Headline, Brief_body, Report_date, url, polarity_score)]
             obj.writerows(entry)
             
           
@@ -116,8 +139,13 @@ def anjie_brands(country, brand, csvName, startDate, endDate, numberOfRows):
         
             except:
                 url = "Nan"
+           
+            #get sentiment analysis
+            sia = analyser()
+            results = []
+            polarity_score = sia.polarity_scores(Headline)
                 
-            entry = [('The Nation NG', brand_name, Headline, Brief_body, Report_date, url)]
+            entry = [('The Nation NG', brand_name, Headline, Brief_body, Report_date, url, polarity_score)]
             obj.writerows(entry)
 
             
@@ -143,48 +171,19 @@ def anjie_brands(country, brand, csvName, startDate, endDate, numberOfRows):
                 Headline = "Nan"
                 Headline_write = "Nan"
    
-            if Headline == "Nan":
-                url == "Nan"
+            try:
+                url = soup.find_all("a", {"data-field": "link"})
+                url = url[i].get("href")
+            except:
+                url = "Nan"
+           
+            #open the main page for this headline
+            if url == "Nan":
+                Brief_body = "Nan"
             else:
-                #Get first paragraph as text summary
- 
-                #remove full stop inbetween figures in the link
-                index = 0
-                fullStopIndex = []
-                for char in Headline:
-                    if index != 0  and char is '.'and Headline[index-1].isdigit and Headline[index+1].isdigit:
-                        fullStopIndex.append(Headline[index-1])
-                        fullStopIndex.append(Headline[index+1])
-                        Headline = Headline.replace(Headline[index],"-",1)
-                    index = index + 1
-            
-                #replace hyphenes with whitespaces
-                Headline_link  = Headline.replace('-', ' ')
-
-                #remove punctuations
-
-                pattern = r'[^\w\s]'
-                pattern = pattern.replace("-", "")
-                Headline_link = re.sub(pattern,'',Headline_link)
-                #insert hyphens
-                Headline_link = re.sub(r"\s+", '-', Headline_link)
-                #change the headline to lowercase
-                Headline_link = Headline_link.lower()
-    
-                if fullStopIndex != []:
-                    index = Headline_link.find(fullStopIndex[0])
-                    if Headline_link.find(fullStopIndex[1]) == index+1:
-                        Headline_link = Headline_link[:index+1] + '-' + Headline_link[index+1:]
-        
-       
-                #open the main page for this headline
-                url = f'https://guardian.ng/news/{Headline_link}/'
-    
-    
                 req = Request(url,headers=hdr)
                 page = urlopen(req)
                 soup_2 = BeautifulSoup(page)
-    
                 Brief_body = soup_2.find_all("article")
                 Brief_body = Brief_body[0].find_all("p")[2].text
     
@@ -194,9 +193,13 @@ def anjie_brands(country, brand, csvName, startDate, endDate, numberOfRows):
                 Report_date = soup.find_all("div", {"class": "meta"})
                 Report_date = Report_date[i].find_all("span", {"class": "age"})[0].text
             except: Report_date = "Nan"
+            
+            #get sentiment analysis
+            sia = analyser()
+            results = []
+            polarity_score = sia.polarity_scores(Headline_write)
     
-    
-            entry = [('The Guardian NG', brand_name, Headline_write, Brief_body, Report_date, url)]
+            entry = [('The Guardian NG', brand_name, Headline_write, Brief_body, Report_date, url, polarity_score)]
             obj.writerows(entry)
             
             
@@ -244,14 +247,165 @@ def anjie_brands(country, brand, csvName, startDate, endDate, numberOfRows):
                 link = link[i].a.get("href")
             except:
                 link = "Nan"
+            
+            #get sentiment analysis
+            sia = analyser()
+            results = []
+            polarity_score = sia.polarity_scores(Headline)
     
-            entry = [('BBC English', brand_name, Headline, Brief_body, Report_Date, url)]
+            entry = [('BBC English', brand_name, Headline, Brief_body, Report_Date, url, polarity_score)]
             obj.writerows(entry)
+            
+            
+        #scrape from lindaikeji's blog
+        brand_name = "MTN"
+        site = f"https://www.lindaikejisblog.com/search/result?search={brand_name}"
         
+        req = Request(site,headers=hdr)
+        try:
+            page = urlopen(req)
+        except Exception as e: print(e)
+        soup = BeautifulSoup(page)
+
+        major = soup.find_all("article", {"class": "result"})
+
+        for i in range(len(major)):
+            try:
+                Headline = soup.find_all("a", {"class": "title"})
+                Headline = Headline[i].text
+                Headline
+            except:
+                Headline = "Nan"
+        
+        
+      
+            try:
+                pattern = re.compile(r'\n\xa0\n')
+
+                Brief_body = soup.find_all("summary", {"class": "description"})
+                Brief_body = Brief_body[i].text.strip()
+                Brief_body = pattern.sub('', Brief_body)
+            except:
+                Brief_body = "Nan"
+    
+        
+        
+            try:
+                patternDate = re.compile(r'by Linda Ikeji at ')
+
+                Report_Date = soup.find_all("div", {"class": "post_age"})
+                Report_Date = Report_Date[i].text.strip()
+                Report_Date = patternDate.sub('', Report_Date )
+            except:
+                Report_Date = "Nan"
+    
+            try:
+                url = soup.find_all("a", {"class": "title"})
+                url = url[i].get("href")
+            except:
+                url = "Nan"
+            
+            #get sentiment analysis
+            sia = analyser()
+            results = []
+            polarity_score = sia.polarity_scores(Headline)
+            
+            entry = [('Lindaikeji\'s blog', brand_name, Headline, Brief_body, Report_Date, url, polarity_score)]
+            obj.writerows(entry)
+            
+            
+            
+        #scrape from news24 southAfrica
+        site = f"https://www.news24.com/Tags/Topics/{brand_name}"
+        req = Request(site,headers=hdr)
+        try:
+            page = urlopen(req)
+        except Exception as e: print(e)
+        soup = BeautifulSoup(page)
+
+        major = soup.find_all("div", {"class": "col300 news_item"})
+
+        for i in range(len(major)):
+            try:
+                Headline = soup.find_all("h4")
+                pattern = re.compile(r'â\x80\x93')
+                Headline = Headline[i].text.strip()
+                Headline = pattern.sub('', Headline)
+            except:
+                Headline = "Nan"
+     
+            try:
+                major2 = soup.find_all("div", {"class": "left vert_line col314"})
+                Brief_body = major2[0].find_all("p")
+                Brief_body = Brief_body[i].text.strip()
+            except:
+                Brief_body = "Nan"
+            if Brief_body == "Nan":
+                try:
+                    major2 = soup.find_all("div", {"class": "col300 news_item"})
+                    Brief_body = major2[i].find_all("p")
+                    Brief_body = Brief_body[0].text.strip()
+                except:
+                    Brief_body = "Nan"
+            try:
+                Report_Date = soup.find_all("span", {"class": "block datestamp left"})
+                Report_Date = Report_Date[i].text.strip()
+            except:
+                Report_Date = "Nan"
+            try:
+                url = soup.find_all("div", {"class": "col300 news_item"})
+                url = url[i].find_all("a")
+                url = url[0].get("href")
+            except:
+                url = "Nan"
+                
+            #get sentiment analysis
+            sia = analyser()
+            results = []
+            polarity_score = sia.polarity_scores(Headline)
+            
+            entry = [('News24', brand_name, Headline, Brief_body, Report_Date, url, polarity_score)]
+            obj.writerows(entry)
+            
+            
         csvfile.close()
+        
+        df = pd.read_csv(f"{csvName}.csv")
+        
+        polar = []
+        result = []
+        
+        df['polarity_score1'] = ""
+        
+        vader = analyser()
+        for i in range (len(df)):
+            polar.append(vader.polarity_scores(df['Headline'][i])['compound'])
+            if polar[i] >= 0.2:
+                result.append("Positive")
+                df['polarity_score1'][i] == "Positive"
+            else:
+                result.append("Negative")
+                df['polarity_score1'][i] == "Negative"
+     
             
+        
+        y_pos = ['Positive', 'Negative']
+        
+        '''
+        print("These are the newspapers and how their posts pass, positive or negative")
+        print(df.groupby(['Media_name', 'polarity_score1'])['polarity_score1'].count())
+        '''
+        
+        array = [result.count('Positive'), result.count('Negative')]
+        plt.bar(y_pos, array, align='center', alpha=0.5)
+        plt.xticks(y_pos)
+        plt.ylabel('Counts')
+        plt.title('Brand analysis for ')
+        plt.show()
+        
+        
             
-            
+
             
     
   
