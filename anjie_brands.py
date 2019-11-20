@@ -15,7 +15,14 @@ def anjie_brands(country, brand, csvName):
     import nltk
     nltk.download('vader_lexicon')
     from nltk.sentiment.vader import SentimentIntensityAnalyzer as analyser
-
+    
+    
+    from nltk.tokenize import word_tokenize, RegexpTokenizer
+    from nltk.corpus import stopwords
+    nltk.download('stopwords')
+    nltk.download('punkt')
+    stopwords = stopwords.words('english')
+    
     from bs4 import BeautifulSoup
     from urllib.request import Request, urlopen
     import re
@@ -87,7 +94,23 @@ def anjie_brands(country, brand, csvName):
             #get sentiment analysis
             sia = analyser()
             results = []
-            polarity_score = sia.polarity_scores(Headline)
+            
+           
+            
+            polar_score_headline = Headline.lower()
+            polar_score_headline = polar_score_headline.split()
+            
+            #remove stop word
+            for word in polar_score_headline:
+                if word in stopwords:
+                    polar_score_headline.remove(word)
+            polar_score_headline = ' '.join(polar_score_headline)
+            
+            #get polarity_score
+            polarity_score = sia.polarity_scores(polar_score_headline)
+            
+            
+            
             
             entry = [('Punch NG', brand_name, Headline, Brief_body, Report_date, url, polarity_score)]
             obj.writerows(entry)
@@ -143,7 +166,20 @@ def anjie_brands(country, brand, csvName):
             #get sentiment analysis
             sia = analyser()
             results = []
-            polarity_score = sia.polarity_scores(Headline)
+            
+           
+            
+            polar_score_headline = Headline.lower()
+            polar_score_headline = polar_score_headline.split()
+            
+            #remove stop word
+            for word in polar_score_headline:
+                if word in stopwords:
+                    polar_score_headline.remove(word)
+            polar_score_headline = ' '.join(polar_score_headline)
+            
+            #get polarity_score
+            polarity_score = sia.polarity_scores(polar_score_headline)
                 
             entry = [('The Nation NG', brand_name, Headline, Brief_body, Report_date, url, polarity_score)]
             obj.writerows(entry)
@@ -197,7 +233,20 @@ def anjie_brands(country, brand, csvName):
             #get sentiment analysis
             sia = analyser()
             results = []
-            polarity_score = sia.polarity_scores(Headline_write)
+            
+           
+            
+            polar_score_headline = Headline.lower()
+            polar_score_headline = polar_score_headline.split()
+            
+            #remove stop word
+            for word in polar_score_headline:
+                if word in stopwords:
+                    polar_score_headline.remove(word)
+            polar_score_headline = ' '.join(polar_score_headline)
+            
+            #get polarity_score
+            polarity_score = sia.polarity_scores(polar_score_headline)
     
             entry = [('The Guardian NG', brand_name, Headline_write, Brief_body, Report_date, url, polarity_score)]
             obj.writerows(entry)
@@ -251,7 +300,20 @@ def anjie_brands(country, brand, csvName):
             #get sentiment analysis
             sia = analyser()
             results = []
-            polarity_score = sia.polarity_scores(Headline)
+            
+           
+            
+            polar_score_headline = Headline.lower()
+            polar_score_headline = polar_score_headline.split()
+            
+            #remove stop word
+            for word in polar_score_headline:
+                if word in stopwords:
+                    polar_score_headline.remove(word)
+            polar_score_headline = ' '.join(polar_score_headline)
+            
+            #get polarity_score
+            polarity_score = sia.polarity_scores(polar_score_headline)
     
             entry = [('BBC English', brand_name, Headline, Brief_body, Report_Date, url, polarity_score)]
             obj.writerows(entry)
@@ -308,7 +370,21 @@ def anjie_brands(country, brand, csvName):
             #get sentiment analysis
             sia = analyser()
             results = []
-            polarity_score = sia.polarity_scores(Headline)
+            
+           
+            
+            polar_score_headline = Headline.lower()
+            polar_score_headline = polar_score_headline.split()
+            
+            #remove stop word
+            for word in polar_score_headline:
+                if word in stopwords:
+                    polar_score_headline.remove(word)
+            polar_score_headline = ' '.join(polar_score_headline)
+            
+            #get polarity_score
+            polarity_score = sia.polarity_scores(polar_score_headline)
+            
             
             entry = [('Lindaikeji\'s blog', brand_name, Headline, Brief_body, Report_Date, url, polarity_score)]
             obj.writerows(entry)
@@ -362,7 +438,20 @@ def anjie_brands(country, brand, csvName):
             #get sentiment analysis
             sia = analyser()
             results = []
-            polarity_score = sia.polarity_scores(Headline)
+            
+           
+            
+            polar_score_headline = Headline.lower()
+            polar_score_headline = polar_score_headline.split()
+            
+            #remove stop word
+            for word in polar_score_headline:
+                if word in stopwords:
+                    polar_score_headline.remove(word)
+            polar_score_headline = ' '.join(polar_score_headline)
+            
+            #get polarity_score
+            polarity_score = sia.polarity_scores(polar_score_headline)
             
             entry = [('News24', brand_name, Headline, Brief_body, Report_Date, url, polarity_score)]
             obj.writerows(entry)
