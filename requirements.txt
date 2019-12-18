@@ -1,0 +1,11 @@
+```
+regex
+matplotlib
+numpy
+nltk
+BeautifulSoup
+urllib3
+python-csv
+pandas
+
+```
