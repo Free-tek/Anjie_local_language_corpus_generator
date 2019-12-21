@@ -1,0 +1,6 @@
+README.md
+setup.py
+anjie.egg-info/PKG-INFO
+anjie.egg-info/SOURCES.txt
+anjie.egg-info/dependency_links.txt
+anjie.egg-info/top_level.txt

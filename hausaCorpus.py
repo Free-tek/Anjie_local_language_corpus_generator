@@ -2,12 +2,7 @@
 import warnings
 warnings.filterwarnings("ignore")
 
-import numpy as np
-import matplotlib.pyplot as plt
-        
-        
-
-    
+import numpy as np   
 from bs4 import BeautifulSoup
 from urllib.request import Request, urlopen
 import re
@@ -15,18 +10,18 @@ import csv
 import pandas as pd
 
 
-def scrape_hausa(no_rows, csvName = 'hausa_news.csv'):
+def scrape(noRows, csvName = 'hausa_news.csv'):
     csvfile = open(f'{csvName}','w', newline='')
     obj = csv.writer(csvfile)
     headers=[('BBC Hausa', 'Headline', 'Brief_body', 'Report_Date', 'Url_link', 'body')]
     obj.writerows(headers)
 
-    if no_rows > 60:
+    if noRows > 60:
         print('Only 60 rows available for news in hausa language')
     else:
-        noPerCategory = no_rows//3
+        noPerCategory = noRows//3
     
-    for i in range(3)
+    for i in range(3):
         if i == 0:
             #sports
             site = 'https://www.bbc.com/hausa/wasanni'
@@ -37,11 +32,13 @@ def scrape_hausa(no_rows, csvName = 'hausa_news.csv'):
             #full reports
             site = 'https://www.bbc.com/hausa/rahotanni'
             
+        hdr = {'User-Agent': 'Mozilla/5.0'}    
         req = Request(site,headers=hdr)
         try:
             page = urlopen(req)
         except Exception as e: print(e)
-            soup1 = BeautifulSoup(page)
+        
+        soup1 = BeautifulSoup(page)
 
 
         for i in range(noPerCategory):
@@ -50,18 +47,24 @@ def scrape_hausa(no_rows, csvName = 'hausa_news.csv'):
                 Headline = Headline[i].text
             except:
                 Headline = "Nan"
+               
+            Headline.replace('\n','')
     
             try:
                 Brief_body = soup1.find_all("p", {"class": "eagle-item__summary"})
                 Brief_body = Brief_body[i].text
             except:
                 Brief_body = "Nan"
+            
+            Brief_body.replace('\n','')
     
             try:
                 Report_Date = soup1.find_all("ul", {"class": "mini-info-list"})
                 Report_Date = Report_Date[i].text
             except:
                 Report_Date = "Nan"
+                
+            Report_Date.replace('\n','')
     
             try:
                 link = soup1.find_all("div", {"class": "eagle-item__body"})
@@ -91,6 +94,8 @@ def scrape_hausa(no_rows, csvName = 'hausa_news.csv'):
 
             except:
                 body = "Nan"
+                
+            body.replace('\n','')
             
             entry = [('BBC Hausa', Headline, Brief_body, Report_Date, link, body)]
             obj.writerows(entry)

@@ -1,20 +1,15 @@
 #ignore warnings
 import warnings
 warnings.filterwarnings("ignore")
-
 import numpy as np
-import matplotlib.pyplot as plt
-        
-        
-
-    
+import matplotlib.pyplot as plt    
 from bs4 import BeautifulSoup
 from urllib.request import Request, urlopen
 import re
 import csv
 import pandas as pd
  
-def scrape_yoruba(noRows, csvName = 'news.csv'):
+def scrape(noRows, csvName = 'yoruba_corpus.csv'):
     
     
     csvfile = open(f'{csvName}','w', newline='')

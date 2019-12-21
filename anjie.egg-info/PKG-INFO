@@ -1,0 +1,102 @@
+Metadata-Version: 2.1
+Name: anjie
+Version: 1.0.0
+Summary: This python library provides corpus in English and various local african languages e.g(Youruba, Hausa, Pidgin), it also does sentiment analysis on brands
+Home-page: https://github.com/Free-tek/Anjie_local_language_corpus_generator
+Author: Babatunde Adewole
+Author-email: adewole63@gmail.com
+License: UNKNOWN
+Description: This python library provides corpus in English and various local african languages e.g(Youruba, Hausa, Pidgin), it also does sentiment analysis on brands
+        
+        USAGE
+        
+        Brand Sentiment Analysis
+        
+        brand = the name of the brand you will like to perfrom sentiment analysis on e.g "MTN"
+        csvFileName = The name of the csv file you will like to save your output to, default is brandNews.csv. (optional parameter)
+        <br>
+        from anjie import brandSentimentAnalysis
+        <br>
+        brandSentimentAnalysis.anjie_brands(brand = "MTN", csvFileName = 'brandNews')
+        <br>
+        import pandas as pd
+        <br>
+        df = pd.read_csv("brandNews.csv.csv")
+        <br>
+        
+        
+        Scraping English Corpus
+        
+        noRows = The number of rows of news you want.
+        csvFileName = The name of the csv file you will like to save your output to, default is news.csv. (optional parameter)
+        News categories include ['news', 'sports', 'metro-plus', 'politics', 'business', 'entertainment', 'editorial', 'columnist']
+        removeCategories = [] :as a parameter for news categories you dont want in the scraped corpus. (optional parameter)
+        e.g , englishCorpus.scrape(noRows = 150, removeCategories = ['metro-plus', 'politics']) 
+        
+        pass onlyCategories = [] : as a parameter for only categories you want in the scraped corpus. (optional parameter)
+        e.g , englishCorpus.scrape(noRows = 150, onlyCategories = ['news', 'sports', 'metro-plus', 'entertainment', 'editorial', 'columnist'])
+        
+        <br>
+        from anjie import englishCorpus
+        <br>
+        englishCorpus.scrape(noRows = 150)
+        <br>
+        df = pd.read_csv("news.csv")
+        <br>
+        
+        Scraping Hausa Corpus
+        <br>
+        noRows = The number of rows of news you want. only 60 rows of hausa corpus is currently available.
+        csvName = The name of the csv file you will like to save your output to, default is hausa_news.csv. (optional parameter) 
+        
+        <br>
+        from anjie import hausaCorpus
+        <br>
+        hausaCorpus.scrape(noRows = 10)
+        <br>
+        import pandas as pd
+        <br>
+        df = pd.read_csv("hausa_news.csv")
+        <br>
+        
+        Scraping Pidgin English corpus
+        <br>
+        noRows = The number of rows of news you want.
+        csvFileName = The name of the csv file you will like to save your output to, default is pidgin_corpus.csv. (optional parameter)
+        News categories include ['nigeria', 'africa', 'sport', 'entertainment']
+        removeCategories = [] :as a parameter for news categories you dont want in the scraped corpus. (optional parameter)
+        e.g , englishCorpus.scrape(noRows = 150, removeCategories = ['entertainment']) 
+        
+        pass onlyCategories = [] : as a parameter for only categories you want in the scraped corpus. (optional parameter)
+        e.g , englishCorpus.scrape(noRows = 150, onlyCategories = ['nigeria','sport', 'entertainment'])
+        <br>
+        from anjie import pidginCorpus
+        <br>
+        pidginCorpus.scrape(noRows = 20)
+        <br>
+        df = pd.read_csv("pidgin_corpus.csv")
+        <br>
+        
+        Scraping Yoruba Corpus
+        <br>
+        noRows = The number of rows of news you want.
+        csvFileName = The name of the csv file you will like to save your output to, default is yoruba_corpus.csv. (optional parameter)
+        
+        <br>
+        from anjie import yorubaCorpus
+        <br>
+        yorubaCorpus.scrape(noRows = 20)
+        <br>
+        df = pd.read_csv("yoruba_corpus.csv")
+        <br>
+        
+        
+        Github link for project - https://github.com/Free-tek/Anjie_local_language_corpus_generator 
+        
+        
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
