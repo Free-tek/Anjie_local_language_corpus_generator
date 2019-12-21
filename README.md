@@ -1,8 +1,8 @@
 This python library provides corpus in English and various local african languages e.g(Youruba, Hausa, Pidgin), it also does sentiment analysis on brands
 
-<b>USAGE
+<b>USAGE</b>
 
-<b>Brand Sentiment Analysis
+<b>Brand Sentiment Analysis</b>
 
 This method helps you scrape news from 7 online english written newspapers and blogs for a particular organisation or brand and can run sentiment analysis to 
 tell you how the brand is percieved in the news.
@@ -48,7 +48,7 @@ df = pd.read_csv("brandNews.csv.csv")
 <br>
 
 
-<b>Scraping English Corpus
+<b>Scraping English Corpus</b>
 
 noRows = The number of rows of news you want.
 csvFileName = The name of the csv file you will like to save your output to, default is news.csv. (optional parameter)
@@ -67,7 +67,7 @@ englishCorpus.scrape(noRows = 150)
 df = pd.read_csv("news.csv")
 <br>
 
-<b>Scraping Hausa Corpus
+<b>Scraping Hausa Corpus</b>
 <br>
 noRows = The number of rows of news you want. only 60 rows of hausa corpus is currently available.
 csvName = The name of the csv file you will like to save your output to, default is hausa_news.csv. (optional parameter) 
@@ -82,7 +82,7 @@ import pandas as pd
 df = pd.read_csv("hausa_news.csv")
 <br>
 
-<b>Scraping Pidgin English corpus
+<b>Scraping Pidgin English corpus</b>
 <br>
 noRows = The number of rows of news you want.
 csvFileName = The name of the csv file you will like to save your output to, default is pidgin_corpus.csv. (optional parameter)
@@ -100,7 +100,7 @@ pidginCorpus.scrape(noRows = 20)
 df = pd.read_csv("pidgin_corpus.csv")
 <br>
 
-<b>Scraping Yoruba Corpus
+<b>Scraping Yoruba Corpus</b>
 <br>
 noRows = The number of rows of news you want.
 csvFileName = The name of the csv file you will like to save your output to, default is yoruba_corpus.csv. (optional parameter)
